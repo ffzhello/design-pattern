@@ -1,7 +1,10 @@
 package com.ffzhello.designpattern;
 
+import com.ffzhello.designpattern.strategy.Order;
+import com.ffzhello.designpattern.strategy.StrategyTest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author ff.zheng
@@ -11,9 +14,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DesignPatternApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DesignPatternApplication.class, args);
+		ConfigurableApplicationContext applicationContext = SpringApplication.run(DesignPatternApplication.class, args);
 
-		// todo
+		Order order = new Order();
+		order.setSource("pc");
+		order.setDetail("detail");
+
+		StrategyTest strategyTest = applicationContext.getBean(StrategyTest.class);
+		strategyTest.handle(order);
+
 	}
-
 }
