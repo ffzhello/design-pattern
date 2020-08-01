@@ -14,7 +14,7 @@ public class InnerClassSingleton {
     private InnerClassSingleton() {}
 
     /**
-     * TODO 巧妙的设计
+     *  TODO 巧妙的设计
      * 静态内部类实现的单例
      **/
     private static final class InnerClassSingletonHolder {
