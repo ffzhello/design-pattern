@@ -4,6 +4,7 @@ package com.ffzhello.designpattern.template.callback;
  * @author ffzhello
  * @since 2020/8/2
  **/
+@FunctionalInterface
 public interface Callback<P, R> {
 
     /**
