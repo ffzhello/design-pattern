@@ -7,24 +7,46 @@ import org.apache.logging.log4j.util.Strings;
  * @author ffzhello
  */
 @Data
-public class ObjBuilder {
-    private String name;
-    private Integer age;
-    private Integer sex;
-    // ......此处省略n个字段
+public class Obj {
     /**
-     * 电话区号
+     * 姓名(* 必填项)
+     **/
+    private String name;
+
+    /**
+     * 性别(* 必填项)
+     **/
+    private Integer sex;
+
+    /**
+     * 年龄(选填项)
+     **/
+    private Integer age;
+
+    /**
+     * 电话区号(选填项)
      **/
     private Integer host;
 
     /**
-     * 电话号码
+     * 电话号码(选填项)
      **/
     private String phoneNumber;
 
+    /**
+     * 构造方法
+     **/
+    public Obj(String name, Integer sex) {
+        if (name == null || sex == null) {
+            throw new IllegalArgumentException("姓名和性别是必填项.");
+        }
+
+        this.name = name;
+        this.sex = sex;
+    }
 
     /*
-     * 痛点一：如果类的参数非常多，而且存在可选项参数
+    * 痛点一：如果类的参数非常多，而且存在可选项参数
      *        会导致类中出现大量构造方法用于设置可选项参数
      */
 
@@ -41,21 +63,19 @@ public class ObjBuilder {
     /**
      * 静态内部类用于构造外部类对象
      **/
-    private static class Builder {
+    public static class Builder {
         private String name;
         private Integer age;
         private Integer sex;
         private Integer host;
         private String phoneNumber;
 
-        public Builder name(String name) {
+        public Builder(String name, Integer age) {
+            if (name == null || age == null) {
+                throw new IllegalArgumentException("姓名和年龄是必填项.");
+            }
             this.name = name;
-            return this;
-        }
-
-        public Builder age(Integer age) {
             this.age = age;
-            return this;
         }
 
         public Builder sex(Integer sex) {
@@ -72,25 +92,22 @@ public class ObjBuilder {
             this.phoneNumber = phoneNumber;
             return this;
         }
-        // ......此处省略n个字段的赋值
 
         /**
          * 精彩的部分在这里
          * 构建最终的对象，同时统一校验参数
          **/
-        public ObjBuilder build() {
+        public Obj build() {
             // 参数校验
             if (Strings.isNotBlank(phoneNumber) && host == null) {
                 throw new IllegalArgumentException("参数错误. 电话区号错误.");
             }
 
-            ObjBuilder objBuilder = new ObjBuilder();
-            objBuilder.setName(name);
-            objBuilder.setAge(age);
-            objBuilder.setSex(sex);
-            objBuilder.setHost(host);
-            objBuilder.setPhoneNumber(phoneNumber);
-            return objBuilder;
+            Obj obj = new Obj(name, age);
+            obj.setSex(sex);
+            obj.setHost(host);
+            obj.setPhoneNumber(phoneNumber);
+            return obj;
         }
     }
 }
